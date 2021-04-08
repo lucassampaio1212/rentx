@@ -3,9 +3,9 @@ import multer from "multer";
 
 import CreateUserController from "@modules/Accounts/useCases/createUser/CreateUserController";
 import UpdateUserAvatarController from "@modules/Accounts/useCases/updateUserAvatar/UpdateUserAvatarController";
-import ensureAuthenticated from "@shared/infra/http/middleware/InsureAuthenticate";
 
 import uploadConfig from "../../../../config/upload";
+import ensureAuthenticated from "../middleware/InsureAuthenticate";
 
 const usersRoutes = Router();
 const createUserController = new CreateUserController();

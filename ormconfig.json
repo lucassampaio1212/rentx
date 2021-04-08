@@ -6,7 +6,7 @@
     "password": "docker",
     "database": "rentx", 
     "entities": [
-		"./src/modules/**/infra/typeorm/entities/*.ts"
+		"./src/modules/**/infra/entities/*.ts"
 	],
   "migrations": [
     "./src/shared/infra/typeorm/migrations/*.ts"

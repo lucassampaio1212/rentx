@@ -1,4 +1,4 @@
-import Specification from "@modules/Cars/entities/Specification";
+import Specification from "@modules/Cars/infra/typeorm/entities/Specification";
 
 interface ISpecificationRepositoryDTO {
     name: string;

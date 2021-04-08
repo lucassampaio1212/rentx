@@ -3,12 +3,11 @@ import express, { NextFunction, Request, Response } from "express";
 import "express-async-errors";
 import swaggerUi from "swagger-ui-express";
 import "../../container";
-import "../typeorm";
+import "@shared/infra/typeorm";
 
-// eslint-disable-next-line import/no-unresolved
+import AppError from "@shared/errors/appError";
 
 import swaggerFile from "../../../swagger.json";
-import AppError from "../../errors/appError";
 import router from "./routes";
 
 const app = express();

@@ -1,13 +1,13 @@
 import ICreateUserDTO from "modules/Accounts/dtos/ICreateUserDTO";
 
 // eslint-disable-next-line import-helpers/order-imports
-import AppError from "@errors/appError";
 
 // eslint-disable-next-line import-helpers/order-imports
 // eslint-disable-next-line import/no-unresolved
 
 import UsersRepositoryInMemory from "@modules/Accounts/repositories/in-memory/UsersRepositoryInMemory";
 import CreateUserUseCase from "@modules/Accounts/useCases/createUser/CreateUserUseCase";
+import AppError from "@shared/errors/appError";
 
 import AuthenticateUserUseCase from "./AuthenticateUserUseCase";
 

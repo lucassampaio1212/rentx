@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
-import AppError from "@errors/appError";
+
 import { CategoriesRepositoryInMemory } from "@modules/Cars/repositories/in-memory/CategoriesRepositoryInMemory";
+import AppError from "@shared/errors/appError";
 
 import CreateCategoryUseCase from "./CreateCategoryUseCase";
 

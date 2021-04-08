@@ -1,9 +1,8 @@
 import { inject, injectable } from "tsyringe";
 
-import Car from "@modules/Cars/entities/Car";
+import Car from "@modules/Cars/infra/typeorm/entities/Car";
 import ICarsRepository from "@modules/Cars/repositories/ICarsRepository";
-
-import AppError from "../../../../shared/errors/appError";
+import AppError from "@shared/errors/appError";
 
 interface IRequest {
     name: string;

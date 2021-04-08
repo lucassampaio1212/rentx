@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import { inject, injectable } from "tsyringe";
 
 import { ICategoriesRepository } from "@modules/Cars/repositories/ICategoriesRepository";

@@ -4,8 +4,7 @@ import { inject, injectable } from "tsyringe";
 // eslint-disable-next-line import/no-unresolved
 import ICreateUserDTO from "@modules/Accounts/dtos/ICreateUserDTO";
 import { IUsersRepository } from "@modules/Accounts/repositories/IUsersRepository";
-
-import AppError from "../../../../shared/errors/appError";
+import AppError from "@shared/errors/appError";
 
 @injectable()
 class CreateUserUseCase {

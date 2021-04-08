@@ -1,9 +1,7 @@
-/* eslint-disable import/no-unresolved */
 import { inject, injectable } from "tsyringe";
 
 import { ISpecificationsRepository } from "@modules/Cars/repositories/ISpecificationRepository";
-
-import AppError from "../../../../shared/errors/appError";
+import AppError from "@shared/errors/appError";
 
 interface IRequest {
     name: string;

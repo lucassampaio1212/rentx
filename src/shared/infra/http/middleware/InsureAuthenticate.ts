@@ -4,7 +4,7 @@ import { verify } from "jsonwebtoken";
 
 import authConfig from "../../../../config/authConfig";
 // eslint-disable-next-line import/no-unresolved
-import UsersRepository from "../../../../modules/Accounts/infra/repositories/UsersRepository";
+import UsersRepository from "../../../../modules/Accounts/infra/typeorm/repositories/UsersRepository";
 import AppError from "../../../errors/appError";
 
 interface ITokenPayload {

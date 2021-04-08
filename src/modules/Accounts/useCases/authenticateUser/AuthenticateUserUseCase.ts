@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import { compare } from "bcryptjs";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { sign } from "jsonwebtoken";
@@ -6,9 +5,7 @@ import { inject, injectable } from "tsyringe";
 
 import authConfig from "@config/authConfig";
 import { IUsersRepository } from "@modules/Accounts/repositories/IUsersRepository";
-
-import AppError from "../../../../shared/errors/appError";
-// eslint-disable-next-line import/no-extraneous-dependencies
+import AppError from "@shared/errors/appError";
 
 interface IRequest {
     email: string;
