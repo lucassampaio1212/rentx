@@ -4,7 +4,7 @@ import UsersRepository from "@modules/Accounts/infra/typeorm/repositories/UsersR
 import AppError from "@shared/errors/appError";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default async function insureAdmin(
+export default async function ensureAdmin(
     request: Request,
     response: Response,
     next: NextFunction
