@@ -2,7 +2,9 @@ import { container } from "tsyringe";
 
 import "@shared/container/providers/DateProvider/index";
 import UsersRepository from "@modules/Accounts/infra/typeorm/repositories/UsersRepository";
+import UsersTokensRepository from "@modules/Accounts/infra/typeorm/repositories/UsersTokenRepository";
 import { IUsersRepository } from "@modules/Accounts/repositories/IUsersRepository";
+import IUserTokensRepository from "@modules/Accounts/repositories/IUsersTokensRepository";
 import CarsImageRepository from "@modules/Cars/infra/typeorm/repositories/CarsImageRepository";
 import CarsRepository from "@modules/Cars/infra/typeorm/repositories/CarsRepository";
 import { CategoriesRepository } from "@modules/Cars/infra/typeorm/repositories/CategoriesRepository";
@@ -37,4 +39,9 @@ container.registerSingleton<ICarsImageRepository>(
 container.registerSingleton<IRentalsRepository>(
     "RentalsRepository",
     RentalsRepository
+);
+
+container.registerSingleton<IUserTokensRepository>(
+    "UsersTokensRepository",
+    UsersTokensRepository
 );

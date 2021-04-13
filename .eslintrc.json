@@ -27,6 +27,7 @@
         "@typescript-eslint/no-unused-vars": "off",
         "no-use-before-define": "off",
         "no-var-requires": "off",
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.js", "**/*.spec.js"]}],
         "@typescript-eslint/naming-convention": [
         "error",
         {

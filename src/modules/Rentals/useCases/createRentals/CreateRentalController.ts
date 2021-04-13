@@ -19,7 +19,7 @@ class CreateRentalController {
             user_id: id,
         });
 
-        return response.status(201).send();
+        return response.status(201).json(rental);
     }
 }
 export default CreateRentalController;

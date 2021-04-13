@@ -11,26 +11,17 @@ class RentalsRepository implements IRentalsRepository {
     constructor() {
         this.repository = getRepository(Rental);
     }
-
-    async findById(id: string): Promise<Rental> {
-        const rental = await this.repository.findOne(id);
-        return rental;
-    }
-    async findByUser(user_id: string): Promise<Rental[]> {
-        const rentals = await this.repository.find({
-            where: { user_id },
-            relations: ["car"],
-        });
-
-        return rentals;
-    }
     async rentOpenToUser(user_id: string): Promise<Rental> {
-        const openByUser = await this.repository.findOne({ user_id });
+        const openByUser = await this.repository.findOne({
+            where: { user_id, end_date: null },
+        });
 
         return openByUser;
     }
     async findOpenRentalByCar(car_id: string): Promise<Rental> {
-        const openByCar = await this.repository.findOne({ car_id });
+        const openByCar = await this.repository.findOne({
+            where: { car_id, end_date: null },
+        });
 
         return openByCar;
     }
@@ -54,6 +45,19 @@ class RentalsRepository implements IRentalsRepository {
         await this.repository.save(rental);
 
         return rental;
+    }
+    async findById(id: string): Promise<Rental> {
+        const rental = await this.repository.findOne(id);
+        return rental;
+    }
+
+    async findByUser(user_id: string): Promise<Rental[]> {
+        const rentals = await this.repository.find({
+            where: { user_id },
+            relations: ["car"],
+        });
+
+        return rentals;
     }
 }
 export default RentalsRepository;

@@ -5,6 +5,8 @@ import { inject, injectable } from "tsyringe";
 
 import authConfig from "@config/authConfig";
 import { IUsersRepository } from "@modules/Accounts/repositories/IUsersRepository";
+import IUserTokensRepository from "@modules/Accounts/repositories/IUsersTokensRepository";
+import IDateProvider from "@shared/container/providers/DateProvider/IDateProvider";
 import AppError from "@shared/errors/appError";
 
 interface IRequest {
@@ -18,12 +20,17 @@ interface IResponse {
         isAdmin: boolean;
     };
     token: string;
+    refresh_token: string;
 }
 @injectable()
 class AuthenticateUserUseCase {
     constructor(
         @inject("UsersRepository")
-        private usersRepository: IUsersRepository
+        private usersRepository: IUsersRepository,
+        @inject("UsersTokensRepository")
+        private usersTokensRepository: IUserTokensRepository,
+        @inject("DateProvider")
+        private dateProvider: IDateProvider
     ) {}
 
     public async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -39,10 +46,22 @@ class AuthenticateUserUseCase {
         if (!passwordMatched) {
             throw new AppError("Incorrect Email/Passoword Combination.", 401);
         }
-        const { secret, expiresIn } = authConfig.jwt;
-        const token = sign({}, secret, {
+        const token = sign({}, authConfig.secret_token, {
             subject: user.id,
-            expiresIn,
+            expiresIn: authConfig.expires_in_token,
+        });
+
+        const refresh_token = sign({ email }, authConfig.secret_refresh_token, {
+            subject: user.id,
+            expiresIn: authConfig.expires_in_refresh_token,
+        });
+
+        const refresh_expires_token = this.dateProvider.addDays(30);
+
+        await this.usersTokensRepository.create({
+            user_id: user.id,
+            expires_date: refresh_expires_token,
+            refresh_token,
         });
 
         const tokenReturn: IResponse = {
@@ -52,6 +71,7 @@ class AuthenticateUserUseCase {
                 email: user.email,
                 isAdmin: user.isAdmin,
             },
+            refresh_token,
         };
         return tokenReturn;
     }
