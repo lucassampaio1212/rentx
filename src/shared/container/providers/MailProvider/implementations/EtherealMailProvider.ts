@@ -44,4 +44,4 @@ class EtherealMailProvider implements IMailProvider {
         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(message));
     }
 }
-export default EtherealMailProvider;
+export { EtherealMailProvider };

@@ -3,7 +3,7 @@ import { sign, verify } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
 import authConfig from "@config/authConfig";
-import IUserTokensRepository from "@modules/Accounts/repositories/IUsersTokensRepository";
+import { IUsersTokensRepository } from "@modules/Accounts/repositories/IUsersTokensRepository";
 import IDateProvider from "@shared/container/providers/DateProvider/IDateProvider";
 import AppError from "@shared/errors/appError";
 
@@ -16,11 +16,13 @@ interface IPayload {
 class RefreshTokenUseCase {
     constructor(
         @inject("UsersTokensRepository")
-        private usersTokensRepository: IUserTokensRepository,
+        private usersTokensRepository: IUsersTokensRepository,
+
         @inject("DateProvider")
         private dateProvider: IDateProvider
     ) {}
-    public async execute(token: string): Promise<string> {
+
+    async execute(token: string): Promise<string> {
         const { email, sub } = verify(
             token,
             authConfig.secret_refresh_token
@@ -28,14 +30,15 @@ class RefreshTokenUseCase {
 
         const user_id = sub;
 
-        const userToken = await this.usersTokensRepository.findByUserAndRefreshToken(
+        const userToken = await this.usersTokensRepository.findByUserIdAndRefreshToken(
             user_id,
             token
         );
 
         if (!userToken) {
-            throw new AppError("Refresh Token Does Not Existis.");
+            throw new AppError("Refresh Token does not exists!");
         }
+
         await this.usersTokensRepository.deleteById(userToken.id);
 
         const refresh_token = sign({ email }, authConfig.secret_refresh_token, {
@@ -56,4 +59,5 @@ class RefreshTokenUseCase {
         return refresh_token;
     }
 }
-export default RefreshTokenUseCase;
+
+export { RefreshTokenUseCase };

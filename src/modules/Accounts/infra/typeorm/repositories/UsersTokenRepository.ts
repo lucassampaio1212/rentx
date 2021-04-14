@@ -1,25 +1,25 @@
 import { getRepository, Repository } from "typeorm";
 
 import ICreateUserTokenDTO from "@modules/Accounts/dtos/ICreateUserTokenDTO";
-import IUserTokensRepository from "@modules/Accounts/repositories/IUsersTokensRepository";
+import { IUsersTokensRepository } from "@modules/Accounts/repositories/IUsersTokensRepository";
 
-import UserToken from "../entities/UserToken";
+import UserTokens from "../entities/UserToken";
 
-class UsersTokensRepository implements IUserTokensRepository {
-    private repository: Repository<UserToken>;
+class UsersTokensRepository implements IUsersTokensRepository {
+    private repository: Repository<UserTokens>;
 
     constructor() {
-        this.repository = getRepository(UserToken);
+        this.repository = getRepository(UserTokens);
     }
-    public async create({
-        user_id,
+    async create({
         expires_date,
         refresh_token,
-    }: ICreateUserTokenDTO): Promise<UserToken> {
+        user_id,
+    }: ICreateUserTokenDTO): Promise<UserTokens> {
         const userToken = this.repository.create({
-            user_id,
             expires_date,
             refresh_token,
+            user_id,
         });
 
         await this.repository.save(userToken);
@@ -27,10 +27,10 @@ class UsersTokensRepository implements IUserTokensRepository {
         return userToken;
     }
 
-    public async findByUserAndRefreshToken(
+    async findByUserIdAndRefreshToken(
         user_id: string,
         refresh_token: string
-    ): Promise<UserToken> {
+    ): Promise<UserTokens> {
         const usersToken = await this.repository.findOne({
             user_id,
             refresh_token,
@@ -38,13 +38,16 @@ class UsersTokensRepository implements IUserTokensRepository {
 
         return usersToken;
     }
-    public async deleteById(id: string): Promise<void> {
+
+    async deleteById(id: string): Promise<void> {
         await this.repository.delete(id);
     }
-    async findByRefreshToken(refresh_token: string): Promise<UserToken> {
+
+    async findByRefreshToken(refresh_token: string): Promise<UserTokens> {
         const userToken = await this.repository.findOne({ refresh_token });
 
         return userToken;
     }
 }
-export default UsersTokensRepository;
+
+export { UsersTokensRepository };

@@ -5,7 +5,7 @@ import { inject, injectable } from "tsyringe";
 
 import authConfig from "@config/authConfig";
 import { IUsersRepository } from "@modules/Accounts/repositories/IUsersRepository";
-import IUserTokensRepository from "@modules/Accounts/repositories/IUsersTokensRepository";
+import { IUsersTokensRepository } from "@modules/Accounts/repositories/IUsersTokensRepository";
 import IDateProvider from "@shared/container/providers/DateProvider/IDateProvider";
 import AppError from "@shared/errors/appError";
 
@@ -28,7 +28,7 @@ class AuthenticateUserUseCase {
         @inject("UsersRepository")
         private usersRepository: IUsersRepository,
         @inject("UsersTokensRepository")
-        private usersTokensRepository: IUserTokensRepository,
+        private usersTokensRepository: IUsersTokensRepository,
         @inject("DateProvider")
         private dateProvider: IDateProvider
     ) {}

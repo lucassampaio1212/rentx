@@ -2,7 +2,7 @@ import { hash } from "bcryptjs";
 import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/Accounts/repositories/IUsersRepository";
-import IUsersTokensRepository from "@modules/Accounts/repositories/IUsersTokensRepository";
+import { IUsersTokensRepository } from "@modules/Accounts/repositories/IUsersTokensRepository";
 import IDateProvider from "@shared/container/providers/DateProvider/IDateProvider";
 import AppError from "@shared/errors/appError";
 
@@ -32,9 +32,6 @@ class ResetPasswordUserUseCase {
         if (!userToken) {
             throw new AppError("Token invalid!");
         }
-
-        console.log(userToken.expires_date, this.dateProvider.dateNow());
-
         if (
             this.dateProvider.compareIfBefore(
                 userToken.expires_date,
@@ -54,4 +51,4 @@ class ResetPasswordUserUseCase {
     }
 }
 
-export default ResetPasswordUserUseCase;
+export { ResetPasswordUserUseCase };
