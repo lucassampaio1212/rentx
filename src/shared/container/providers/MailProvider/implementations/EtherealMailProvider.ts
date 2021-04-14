@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import fs from "fs";
+import handlebars from "handlebars";
 import nodemailer, { Transporter } from "nodemailer";
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 
 import IMailProvider from "../IMailProvider";
 
@@ -20,13 +24,20 @@ class EtherealMailProvider implements IMailProvider {
             this.client = transporter;
         });
     }
-    async sendMail(to: string, subject: string, body: string): Promise<void> {
+    async sendMail(
+        to: string,
+        subject: string,
+        variables: any,
+        path: string
+    ): Promise<void> {
+        const templateFileContent = fs.readFileSync(path).toString("utf-8");
+        const parseTemplate = handlebars.compile(templateFileContent);
+        const templateHTML = parseTemplate(variables);
         const message = await this.client.sendMail({
             to,
             from: "Rentx <noreplay@rentx.com.br>",
             subject,
-            text: body,
-            html: body,
+            html: templateHTML,
         });
 
         console.log("Message sent: %s", message.messageId);
