@@ -28,16 +28,9 @@ export default async function ensureAuthenticated(
     try {
         const { sub: user_id } = verify(
             token,
-            authConfig.jwt.secret
+            authConfig.secret_token
         ) as ITokenPayload;
 
-        const usersRepository = new UsersRepository();
-
-        const user = await usersRepository.findById(user_id);
-
-        if (!user) {
-            throw new AppError("user not found", 401);
-        }
         request.user = {
             id: user_id,
         };

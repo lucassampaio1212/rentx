@@ -1,4 +1,5 @@
 import { hash } from "bcryptjs";
+import { addHours, isAfter } from "date-fns";
 import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/Accounts/repositories/IUsersRepository";
@@ -18,10 +19,7 @@ class ResetPasswordUserUseCase {
         private usersRepository: IUsersRepository,
 
         @inject("UsersTokensRepository")
-        private usersTokensRepository: IUsersTokensRepository,
-
-        @inject("DateProvider")
-        private dateProvider: IDateProvider
+        private usersTokensRepository: IUsersTokensRepository
     ) {}
 
     async execute({ token, password }: IRequest): Promise<void> {
@@ -32,13 +30,12 @@ class ResetPasswordUserUseCase {
         if (!userToken) {
             throw new AppError("Token invalid!");
         }
-        if (
-            this.dateProvider.compareIfBefore(
-                userToken.expires_date,
-                this.dateProvider.dateNow()
-            )
-        ) {
-            throw new AppError("Token expired!");
+        const tokenCreatedAt = userToken.created_at;
+
+        const compareDate = addHours(tokenCreatedAt, 2);
+
+        if (isAfter(Date.now(), compareDate)) {
+            throw new AppError("token expired");
         }
 
         const user = await this.usersRepository.findById(userToken.user_id);

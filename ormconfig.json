@@ -4,7 +4,7 @@
         "port": 5432,
         "username": "docker",
         "password": "ignite",
-        "database": "rentx", 
+        "database": "rentx_prod", 
     "entities": [
       "./src/modules/**/infra/typeorm/entities/*.ts"
     ],
