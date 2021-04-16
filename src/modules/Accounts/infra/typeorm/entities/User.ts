@@ -1,3 +1,4 @@
+import { Expose } from "class-transformer";
 import {
     Column,
     CreateDateColumn,
@@ -30,5 +31,21 @@ class User {
 
     @CreateDateColumn()
     created_at: Date;
+
+    @Expose({ name: "avatar_url" })
+    avatar_url(): string | null {
+        if (!this.avatar) {
+            return null;
+        }
+
+        switch (process.env.STORAGE_PROVIDER) {
+            case "disk":
+                return `${process.env.APP_API_URL}/avatar/${this.avatar}`;
+            case "s3":
+                return `${process.env.AWS_BUCKTE_URL}/avatar/${this.avatar}`;
+            default:
+                return null;
+        }
+    }
 }
 export default User;
