@@ -22,7 +22,7 @@ export default class DevolutionRentalUseCase {
         private dateProvider: IDateProvider
     ) {}
 
-    public async execute({ id, user_id }: IRequest): Promise<Rental> {
+    public async execute({ id }: IRequest): Promise<Rental> {
         const rental = await this.rentalsRepository.findById(id);
         const minimum_daily = 1;
         const car = await this.carsRepository.findById(rental.car_id);

@@ -2,9 +2,7 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    PrimaryColumn,
     PrimaryGeneratedColumn,
-    UpdateDateColumn,
 } from "typeorm";
 
 @Entity("specifications")

@@ -39,10 +39,10 @@ class User {
         }
 
         switch (process.env.STORAGE_PROVIDER) {
-            case "disk":
-                return `${process.env.APP_API_URL}/avatar/${this.avatar}`;
+            case "local":
+                return `${process.env.APP_API_URL}/Avatar/${this.avatar}`;
             case "s3":
-                return `${process.env.AWS_BUCKTE_URL}/avatar/${this.avatar}`;
+                return `${process.env.AWS_BUCKTE_URL}/Avatar/${this.avatar}`;
             default:
                 return null;
         }
